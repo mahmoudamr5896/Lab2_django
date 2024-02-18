@@ -36,7 +36,6 @@ def create_user(request):
             username = request.POST['uname']
             email = request.POST['email']
             password = request.POST['Pass']
-            # Create and save the user object
             user = users.objects.create(
                 F_name=first_name,
                 L_name=last_name,
@@ -44,7 +43,7 @@ def create_user(request):
                 Email=email,
                 Password=password
             )
-            return redirect('sighnin')  # Redirect to success page
+            return redirect('sighnin') 
         else:
             return render(request, 'Day1/sighnup.html')
 
@@ -57,7 +56,6 @@ def Accept_user(request):
         
         user = users.objects.filter(Email=email, Password=password).first()
         if user is not None:
-            # Store user-specific data in session
             request.session['user_email'] = user.Email
             request.session['userpass'] = user.Password
             return redirect('home')
@@ -83,11 +81,9 @@ def create_std(request):
             Age=Age,
             S_Email=Email,
         )
-        # Redirect to a URL pattern or view name
-        return redirect('showdata')  # Assuming 'show_data' is the URL pattern name for the 'showdata' view
+        return redirect('showdata') 
     else:
-        return redirect('Contact')  # Redirect to 'Contact' URL pattern or view name
-
+        return redirect('Contact')  
 def showdata(request):
     if not request.session.get('user_email') or not request.session.get('userpass'):
         return render(request,'Day1/sighnup.html')
@@ -106,7 +102,7 @@ def edit_student(request, student_id):
         student.S_Email = request.POST.get('email')
         student.Age = request.POST.get('age')
         student.save()
-        return redirect('showdata')  # Assuming 'show_data' is the URL pattern name for the page displaying all students
+        return redirect('showdata') 
     return render(request, 'Day1/edit_student.html', {'student': student})
 
 
