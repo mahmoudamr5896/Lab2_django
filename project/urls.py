@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Day1.views import Accept_user, Sighnin, Sighnup, create_std, create_user, home, showdata ,delete_student, edit_student
+from Day1.views import Accept_user, Sighnin, Sighnup,logout, create_std, create_user, home, showdata ,delete_student, edit_student
 from Day1.views import about ,Contact
 
 urlpatterns = [
@@ -32,5 +32,7 @@ urlpatterns = [
     path("ShowUsers/",showdata,name='showdata'),
     path('delete_student/<int:student_id>/', delete_student, name='delete_student'),
     path('edit_student/<int:student_id>/', edit_student, name='edit_student'),
+    path('logout/', logout, name='logout'),
+
 
 ]

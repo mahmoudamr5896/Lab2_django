@@ -9,12 +9,16 @@ from Day1.models import users ,Student
 #     return HttpResponse('mahmoud amr')
 
 def home(request):
+    if not request.session.get('user_email') or not request.session.get('userpass'):
+        return render(request,'Day1/sighnup.html')
     return render(request, 'Day1/home.html')
 
 def about(request):
     return render(request, 'Day1/About.html')
 
 def Contact(request):
+    if not request.session.get('user_email') or not request.session.get('userpass'):
+        return render(request,'Day1/sighnup.html')
     return render(request, 'Day1/Contact.html')
 
 
@@ -52,8 +56,10 @@ def Accept_user(request):
         password = request.POST['password']
         
         user = users.objects.filter(Email=email, Password=password).first()
-        
         if user is not None:
+            # Store user-specific data in session
+            request.session['user_email'] = user.Email
+            request.session['userpass'] = user.Password
             return redirect('home')
         else:
             return render(request,'Day1/sighnup.html')
@@ -65,6 +71,9 @@ from .models import Student
 
 
 def create_std(request):
+
+    if not request.session.get('user_email') or not request.session.get('userpass'):
+        return render(request,'Day1/sighnup.html')
     if request.method == 'POST':
         first_name = request.POST.get('fname')
         Email = request.POST.get('email')
@@ -80,6 +89,8 @@ def create_std(request):
         return redirect('Contact')  # Redirect to 'Contact' URL pattern or view name
 
 def showdata(request):
+    if not request.session.get('user_email') or not request.session.get('userpass'):
+        return render(request,'Day1/sighnup.html')
     students = Student.objects.all()
     return render(request, 'Day1/ShowUsers.html', {'students': students})
 
@@ -97,3 +108,8 @@ def edit_student(request, student_id):
         student.save()
         return redirect('showdata')  # Assuming 'show_data' is the URL pattern name for the page displaying all students
     return render(request, 'Day1/edit_student.html', {'student': student})
+
+
+def logout(request):
+    request.session.clear()
+    return render(request,'Day1/sighnup.html')
