@@ -3,7 +3,10 @@ from urllib.request import Request
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
-from Day1.models import users ,Student
+from .models import users ,Student
+from django.shortcuts import render, redirect
+
+
 # Create your views here.
 # def home(req):
 #     return HttpResponse('mahmoud amr')
@@ -11,7 +14,10 @@ from Day1.models import users ,Student
 def home(request):
     if not request.session.get('user_email') or not request.session.get('userpass'):
         return render(request,'Day1/sighnup.html')
-    return render(request, 'Day1/home.html')
+    
+    student = Student.objects.all()
+
+    return render(request, 'Day1/home.html', {'students': student})
 
 def about(request):
     return render(request, 'Day1/About.html')
@@ -63,9 +69,6 @@ def Accept_user(request):
             return render(request,'Day1/sighnup.html')
 
 
-from django.shortcuts import render, redirect
-from .models import Student
-
 
 
 def create_std(request):
@@ -84,6 +87,9 @@ def create_std(request):
         return redirect('showdata') 
     else:
         return redirect('Contact')  
+    
+
+
 def showdata(request):
     if not request.session.get('user_email') or not request.session.get('userpass'):
         return render(request,'Day1/sighnup.html')

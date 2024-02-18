@@ -59,4 +59,43 @@ li a:hover {
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
-</div>{%endblock 'body'%}
+</div>
+<pr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</pr>
+<h1  class="border bg-primary"style="text-align: center;">Students</h1>
+<div class="container col-12">
+  <div class=" row">
+    {% for std in students %}
+      <div class="col-lg-3 mb-3"> <!-- Use col-lg-4 to display 3 cards in a row on large screens -->
+        <div class="card" style="width: 18rem;">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0nXNZexdkGUoggApMg4zw2oR-AoVLML4rSA&usqp=CAU" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ std.s_name }}</h5>
+            <p class="card-text">{{ std.S_Email }}</p>
+            <p class="card-text">{{ std.Age }}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+ 
+
+{%endblock 'body'%}
