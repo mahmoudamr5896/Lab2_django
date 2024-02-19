@@ -5,6 +5,7 @@ from django.http import HttpResponse
 
 from .models import users ,Student
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login ,logout
 
 
 # Create your views here.
@@ -35,24 +36,51 @@ def Sighnin(request):
     return render(request, 'Day1/signin.html')
 
 
-def create_user(request):
-        if request.method == 'POST':
-            first_name = request.POST['fname']
-            last_name = request.POST['lname']
-            username = request.POST['uname']
-            email = request.POST['email']
-            password = request.POST['Pass']
-            user = users.objects.create(
-                F_name=first_name,
-                L_name=last_name,
-                User_name=username,
-                Email=email,
-                Password=password
-            )
-            return redirect('sighnin') 
-        else:
-            return render(request, 'Day1/sighnup.html')
+# def create_user(request):
+#         if request.method == 'POST':
+#             first_name = request.POST['fname']
+#             last_name = request.POST['lname']
+#             username = request.POST['uname']
+#             email = request.POST['email']
+#             password = request.POST['Pass']
+#             user = users.objects.create(
+#                 F_name=first_name,
+#                 L_name=last_name,
+#                 User_name=username,
+#                 Email=email,
+#                 Password=password
+#             )
+#             return redirect('sighnin') 
+#         else:
+#             return render(request, 'Day1/sighnup.html')
 
+
+
+def create_user(request):
+    if request.method == 'POST':
+        first_name = request.POST['fname']
+        last_name = request.POST['lname']
+        username = request.POST['uname']
+        email = request.POST['email']
+        password = request.POST['Pass']
+        
+        # Create the user
+        user = users.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+        if user :
+            login(request, user)
+            return redirect('home')  
+        else:
+            return HttpResponse("Request failed")
+    else:
+        return render(request, 'Day1/sighnup.html')
 
 
 def Accept_user(request):
@@ -67,7 +95,6 @@ def Accept_user(request):
             return redirect('home')
         else:
             return render(request,'Day1/sighnup.html')
-
 
 
 
@@ -112,6 +139,7 @@ def edit_student(request, student_id):
     return render(request, 'Day1/edit_student.html', {'student': student})
 
 
-def logout(request):
-    request.session.clear()
+def logout_(request):
+    logout(request)
+    # request.session.clear()
     return render(request,'Day1/sighnup.html')
