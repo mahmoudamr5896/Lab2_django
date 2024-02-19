@@ -62,8 +62,7 @@ def create_user(request):
         last_name = request.POST['lname']
         username = request.POST['uname']
         email = request.POST['email']
-        password = request.POST['Pass']
-        
+        password = request.POST['Pass']     
         # Create the user
         user = users.objects.create_user(
             username=username,
